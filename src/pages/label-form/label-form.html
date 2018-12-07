@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-title> Nuevo etiqueta </ion-title>
+    <ion-buttons end>
+      <button
+        type="button"
+        ion-button
+        clear
+        icon-only
+        color="dark"
+        (click)="onSubmit()"
+        [disabled]="!labelForm || labelForm.invalid"
+      >
+        <ion-icon name="send"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onSubmit()" [formGroup]="labelForm">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Identificador</ion-label>
+        <ion-input type="text" formControlName="id"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Nombre</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Color</ion-label>
+        <ion-select formControlName="color">
+          <ion-option
+            *ngFor="let color of colors"
+            [ngStyle]="{ color: color.color }"
+            [value]="color.color"
+          >
+            {{ color.name }}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-content padding>
+  <div class="login-container">
+    <form (ngSubmit)="singUp()" [formGroup]="signUpForm">
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Contraseña</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+      </ion-list>
+
+      <button
+        type="submit"
+        ion-button
+        block
+        [disabled]="!signUpForm || signUpForm.invalid"
+      >
+        Guardar
+      </button>
+    </form>
+
+    <button ion-button icon-left block clear (click)="goToLogin()">
+      Volver al login
+    </button>
+  </div>
+</ion-content>

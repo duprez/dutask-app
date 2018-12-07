@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ task.description }}</ion-title>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-title>
+      <ion-badge item-end> {{ task.project.name }}</ion-badge>
+      <ion-badge
+        *ngFor="let label of task.labels"
+        item-end
+        [style.background-color]="label.color"
+        style="margin-right: 5px"
+      >
+        {{ label.name }}
+      </ion-badge>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  {{ task.comment || "Esta tarea no tiene ningún comentario" }}
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title> {{ getDate() | date: "dd/MM/yyyy" }} </ion-title>
+  </ion-toolbar>
+</ion-footer>

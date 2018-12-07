@@ -1,0 +1,14 @@
+<ion-list>
+  <ion-item *ngFor="let task of tasks">
+    <input
+      type="checkbox"
+      id="task-description"
+      [ngClass]="{ 'red-border': task.priority }"
+      (click)="onCompleteTask(task)"
+    />
+    <label for="task-description">{{ task.description }}</label>
+    <button ion-button float-right clear (click)="taskSelected(task)">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-item>
+</ion-list>

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-navbar> <ion-title>Nueva tarea</ion-title> </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form novalidate [formGroup]="taskForm">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Escriba su tarea aquí</ion-label>
+        <ion-input type="text" formControlName="description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Prioridad alta</ion-label>
+        <ion-toggle formControlName="priority"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Fecha</ion-label>
+        <ion-datetime formControlName="date"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Proyectos</ion-label>
+        <ion-select formControlName="project">
+          <ion-option *ngFor="let project of projects" 
+            [value]="project">{{ project.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Etiquetas</ion-label>
+        <ion-select formControlName="labels" multiple="true">
+          <ion-option *ngFor="let label of labels" [value]="label">{{
+            label.name
+          }}</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Comentario</ion-label>
+        <ion-textarea formControlName="comment" floating></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer padding>
+  <button type="button" ion-button color="danger" outline (click)="cancel()">
+    Cancelar
+  </button>
+  <button
+    type="button"
+    ion-button
+    outline
+    float-right
+    (click)="onSubmit()"
+    [disabled]="!taskForm || taskForm.invalid"
+  >
+    Guardar tarea
+  </button>
+</ion-footer>
