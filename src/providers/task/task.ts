@@ -5,7 +5,7 @@ import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
 
 @Injectable()
 export class TaskProvider {
-  userEmail: string;
+  userEmail: string = '';
 
   taskRef = this.db.firestore.collection("task");
   labelRef = this.db.firestore.collection("labels");
@@ -24,8 +24,9 @@ export class TaskProvider {
 
   getTasks(params: any = ""): Observable<Task[]> {
     return new Observable(observer => {
+      const query = this.taskRef;
       this.taskRef
-        .where("user", "==", this.userEmail)
+        .where("user", "==", (this.userEmail || null))
         .onSnapshot(querySnapshot => {
           let tasks: Task[] = [];
           querySnapshot.forEach(doc => {
@@ -70,7 +71,7 @@ export class TaskProvider {
   getLabels(): Observable<Label[]> {
     return new Observable(observer => {
       this.labelRef
-        .where("user", "==", this.userEmail)
+        .where("user", "==", (this.userEmail || null))
         .onSnapshot(querySnapshot => {
           let labels: Label[] = [];
           querySnapshot.forEach(doc => {
@@ -95,7 +96,7 @@ export class TaskProvider {
   getProjects(): Observable<Project[]> {
     return new Observable(observer => {
       this.projectRef
-        .where("user", "==", this.userEmail)
+        .where("user", "==", (this.userEmail || null))
         .onSnapshot(querySnapshot => {
           let projects: Project[] = [];
           querySnapshot.forEach(doc => {
