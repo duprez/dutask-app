@@ -82,6 +82,10 @@ export class HomePage implements OnInit {
   }
 
   selectTask(task: Task) {
-    this.navCtrl.push(TaskPage, { task: task });
+    const modal = this.modalCtrl.create(TaskPage, {
+      task: task 
+    });
+    modal.present();
+    // this.navCtrl.push(TaskPage, { task: task });
   }
 }

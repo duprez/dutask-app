@@ -1,5 +1,10 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons left margin-left>
+      <button ion-button icon-only (click)="cancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>{{ task.description }}</ion-title>
   </ion-navbar>
 
