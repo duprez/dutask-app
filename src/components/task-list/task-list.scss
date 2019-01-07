@@ -47,4 +47,18 @@ task-list {
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+  .no-task-container {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .svg-content {
+      height: 300px;
+      width: 300px;
+      margin: 0 auto;
+    }
+  }
 }

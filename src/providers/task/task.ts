@@ -46,7 +46,10 @@ export class TaskProvider {
           if (params !== "") {
             _tasks = [];
             tasks.forEach(task => {
-              if (task.labels.findIndex(label => label.id === params) >= 0) {
+              if (
+                task.labels && 
+                task.labels.length &&
+                task.labels.findIndex(label => label.id === params) >= 0) {
                 _tasks.push(task);
               }
             });

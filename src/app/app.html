@@ -22,6 +22,7 @@
             
             <button ion-item *ngFor="let subpage of p.pages" (click)="openPage(subpage)">
               {{ subpage.title }}
+              <div float-right [style.background-color]="subpage.color" class="round"></div>
             </button>
           </ion-item> 
         </ng-container>

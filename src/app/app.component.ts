@@ -36,11 +36,13 @@ export class MyApp implements OnInit {
     this.pages = [
       { title: 'Tareas', component: HomePage },
       { title: 'Etiquetas', component: null, actions: [
-        {icon: 'add', component: LabelFormPage}
+        { icon: 'add', component: LabelFormPage },
+        { icon: 'cog', component: null }
         ], pages: [] 
       },
       { title: 'Proyectos', component: null, actions: [
-        { icon: 'add', component: ProjectFormPage }
+        { icon: 'add', component: ProjectFormPage },
+        { icon: 'cog', component: null }
         ], pages: []
       }
     ];

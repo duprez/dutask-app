@@ -1,4 +1,4 @@
-@import '../theme/variables.scss';
+@import 'theme/variables.scss';
 
 $primary:    map-get($colors, primary);
 $accent:     map-get($colors, accent);
@@ -8,15 +8,7 @@ $foreground: map-get($colors, foreground);
 $success:    map-get($colors, success);
 $danger:     map-get($colors, danger);
 
-.ion-content {
+body {
     background-color: $background;
     color: $foreground;
-}
-
-.round {
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    position: relative;
-    top: 3px;
 }
