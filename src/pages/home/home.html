@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content color="success" padding>
 
   <task-list 
     [tasks]="taskList" 
@@ -15,7 +15,7 @@
     (selectTask)="selectTask($event.task)"></task-list>
 
   <ion-fab bottom right>
-    <button ion-fab (click)="openTaskForm()">
+    <button ion-fab mini (click)="openTaskForm()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

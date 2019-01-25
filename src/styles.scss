@@ -1,14 +1,1 @@
 @import 'theme/variables.scss';
-
-$primary:    map-get($colors, primary);
-$accent:     map-get($colors, accent);
-$warn:       map-get($colors, warn);
-$background: map-get($colors, background);
-$foreground: map-get($colors, foreground);
-$success:    map-get($colors, success);
-$danger:     map-get($colors, danger);
-
-body {
-    background-color: $background;
-    color: $foreground;
-}

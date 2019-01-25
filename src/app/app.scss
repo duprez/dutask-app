@@ -1,22 +1,20 @@
 @import '../theme/variables.scss';
 
-$primary:    map-get($colors, primary);
-$accent:     map-get($colors, accent);
-$warn:       map-get($colors, warn);
-$background: map-get($colors, background);
-$foreground: map-get($colors, foreground);
-$success:    map-get($colors, success);
-$danger:     map-get($colors, danger);
-
-.ion-content {
-    background-color: $background;
-    color: $foreground;
-}
-
 .round {
     width: 10px;
     height: 10px;
     border-radius: 100%;
-    position: relative;
-    top: 3px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.item-md, .item-ios {
+    .item-block .item-inner {
+        border-bottom: transparent;
+    }
+}
+
+.logout {
+    position: fixed;
+    bottom: 10px;
 }

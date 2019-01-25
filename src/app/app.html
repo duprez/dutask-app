@@ -9,32 +9,34 @@
     <ion-list>
       <ng-container *ngFor="let p of pages">
         <ng-container *ngIf="(!p.component || p.pages?.length) else option">
-          <ion-item>
+          <ion-item color="transparent">
             {{ p.title }}
             <ng-container *ngIf="p.actions?.length">
                 <button ion-button icon-only clear float-right
                 *ngFor="let action of p.actions"
-                (click)="onAction(action.component)"
-                color="dark">
+                (click)="onAction(action.component)">
                   <ion-icon [name]="action.icon"></ion-icon>
                 </button>
             </ng-container>
             
-            <button ion-item *ngFor="let subpage of p.pages" (click)="openPage(subpage)">
+            <button class="subpage" ion-item *ngFor="let subpage of p.pages" (click)="openPage(subpage)" color="transparent">
+              <div [style.background-color]="subpage.color" class="round"></div>
               {{ subpage.title }}
-              <div float-right [style.background-color]="subpage.color" class="round"></div>
             </button>
           </ion-item> 
         </ng-container>
 
         <ng-template #option>
-          <button ion-item (click)="openPage(p)">
+          <button ion-item (click)="openPage(p)" color="transparent">
             {{ p.title }}
           </button>
         </ng-template>
       </ng-container>
     </ion-list>
-    <button ion-button (click)="logout()" color="primary" clear bottom>Logout</button>
+    <button ion-button icon-start (click)="logout()" color="primary" clear class="logout">
+      <ion-icon name="log-out"></ion-icon>
+      Logout
+    </button>
   </ion-content>
 
 </ion-menu>

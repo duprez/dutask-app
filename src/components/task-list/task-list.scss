@@ -15,7 +15,7 @@ task-list {
     position: relative;
     padding-left: 35px;
     font: 14px/20px "Open Sans", Arial, sans-serif;
-    color: black;
+    color: #fff;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -30,7 +30,7 @@ task-list {
     border: 1px solid #6cc0e5;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 13px;
     opacity: 0.6;
     -webkit-transition: all 0.12s, border-color 0.08s;
     transition: all 0.12s, border-color 0.08s;
@@ -59,6 +59,24 @@ task-list {
       height: 300px;
       width: 300px;
       margin: 0 auto;
+    }
+  }
+
+  .badge {
+    border-radius: 5px;
+    text-align: center;
+    width: 70px;
+    margin: 6px 0;
+    display: inline-block;
+    font-size: 11px;
+  }
+
+  small {
+    font-size: 13px;
+    color: darken(#fafafa, 15%);
+    &.date {
+      font-style: italic;
+      margin-right: 5px;
     }
   }
 }

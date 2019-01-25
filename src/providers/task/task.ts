@@ -41,22 +41,34 @@ export class TaskProvider {
               comment: data.comment
             });
           });
-          // FILTRAR POR ETIQUETAS MODO GITAN
-          let _tasks;
-          if (params !== "") {
-            _tasks = [];
-            tasks.forEach(task => {
-              if (
-                task.labels && 
-                task.labels.length &&
-                task.labels.findIndex(label => label.id === params) >= 0) {
-                _tasks.push(task);
-              }
-            });
-          }
-          observer.next(_tasks ? _tasks : tasks);
+          observer.next(
+            this.filterTasksByLabelsOrProject(tasks, params)
+          );
         });
     });
+  }
+
+  filterTasksByLabelsOrProject(tasks: Task[], params: any) {
+    if (params !== "") {
+      // FILTRAR POR ETIQUETAS MODO GITAN
+      let _tasks = [];
+      tasks.forEach(task => {
+        if (
+          task.labels && 
+          task.labels.length &&
+          task.labels.findIndex(label => label.id === params) >= 0) {
+          _tasks.push(task);
+        } else if (
+          task.project && 
+          task.project.id === params
+        ) {
+          _tasks.push(task);
+        }
+      });
+      return _tasks;
+    } else {
+      return tasks;
+    }
   }
 
   completeTask(task: Task) {
