@@ -48,7 +48,7 @@ const config = {
     TaskPageModule,
     LabelFormPageModule,
     ProjectFormPageModule,
-    StorageServiceModule
+    StorageServiceModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -1,4 +1,4 @@
-@import '../theme/variables.scss';
+@import './../theme/variables.scss';
 
 .round {
     width: 10px;
@@ -15,6 +15,26 @@
 }
 
 .logout {
-    position: fixed;
-    bottom: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: #191919;
+    padding: 10px 0;
+}
+
+.user-container {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    img {
+        width: 100px;
+        border-radius: 100%;
+    }
+    h5 {
+        margin: 5px 0;
+        color: color($colors, primary);
+    }
+    small {
+        font-size: 13px;
+        color: lighten(color($colors, primary), 5%);
+    }
 }

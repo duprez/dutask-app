@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
-      position: "top",
+      position: "bottom",
       showCloseButton: true,
       closeButtonText: "Deshacer"
     });

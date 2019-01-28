@@ -12,7 +12,15 @@ import { HomePage } from "../home/home";
 })
 export class LabelFormPage {
   labelForm: FormGroup;
-  colors;
+
+  selectedColor: string = 'color1';
+  arrayColors: any = {
+    color1: '#2883e9',
+    color2: '#e920e9',
+    color3: 'rgb(255,245,0)',
+    color4: 'rgb(236,64,64)',
+    color5: 'rgba(45,208,45,1)'
+  };
 
   constructor(
     public navCtrl: NavController,
@@ -24,29 +32,18 @@ export class LabelFormPage {
     this.labelForm = this.fb.group({
       id: [null, Validators.required],
       name: [null, Validators.required],
-      color: [null, Validators.required]
+      color: [
+        this.arrayColors[this.selectedColor],
+        Validators.required
+      ]
     });
-
-    this.colors = [
-      { name: "red", color: "#b60205" },
-      { name: "light red", color: "#e99695" },
-      { name: "orange", color: "#d93f0b" },
-      { name: "light orange", color: "#f9d0c4" },
-      { name: "yellow", color: "#fbca04" },
-      { name: "light yellow", color: "#fef2c0" },
-      { name: "green", color: "#0e8a16" },
-      { name: "light green", color: "#c2e0c6" },
-      { name: "blue", color: "#1d76db" },
-      { name: "light blue", color: "#c5def5" },
-      { name: "light violet", color: "#d4c5f9" }
-    ];
   }
 
   presentToast(message) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
-      position: "top"
+      position: "bottom"
     });
     toast.present();
   }
@@ -56,5 +53,9 @@ export class LabelFormPage {
       this.presentToast('Etiqueta guardada');
       this.navCtrl.setRoot(HomePage);
     });
+  }
+
+  onChangeColor(color: string) {
+    this.labelForm.controls.color.setValue(color);
   }
 }

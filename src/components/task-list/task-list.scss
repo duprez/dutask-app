@@ -38,7 +38,7 @@ task-list {
 
   input[type="checkbox"]:checked + label:before {
     width: 10px;
-    top: -5px;
+    top: 10px;
     left: 5px;
     border-radius: 0;
     opacity: 1;
@@ -60,6 +60,12 @@ task-list {
       width: 300px;
       margin: 0 auto;
     }
+    h3 {
+      margin: 0 0 5px;
+    }
+    p {
+      margin: 0;
+    }
   }
 
   .badge {
@@ -67,16 +73,27 @@ task-list {
     text-align: center;
     width: 70px;
     margin: 6px 0;
+    padding: 2px 0;
     display: inline-block;
-    font-size: 11px;
+    font-size: 12px;
   }
 
   small {
-    font-size: 13px;
+    font-size: 14px;
     color: darken(#fafafa, 15%);
     &.date {
       font-style: italic;
       margin-right: 5px;
     }
+  }
+
+  .task-description {
+    position: relative;
+    left: 25px;
+    bottom: 10px;
+  }
+
+  .label-md, .label-ios {
+    margin: 0;
   }
 }

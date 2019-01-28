@@ -1,25 +1,33 @@
 <ion-list *ngIf="tasks?.length; else noTasks">
-  <ion-item color="transparent" *ngFor="let task of tasks">
+  <ion-item color="transparent" *ngFor="let task of tasks; let i = index;">
     <input
       type="checkbox"
-      id="task-description"
-      [ngClass]="{ 'red-border': task.priority }"
-      (click)="onCompleteTask(task)"
-    />
-    <label for="task-description">
-      <div>
-        <small class="date">{{ task.date | date: 'dd/MM/yyy' }}</small>
-        <span>
-          {{ task.description }}
-        </span>
-      </div>
-      <div class="badge" [style.background-color]="task.project.color">{{ task.project.name }}</div>
-    </label>
-    <button ion-button float-right icon-only clear (click)="taskSelected(task)">
-      <ion-icon name="arrow-round-forward"></ion-icon>
-    </button>
+      [id]="'task-description' + i"
+      (click)="onCompleteTask(task)"/>
+    <label [for]="'task-description' + i"></label>
+    <ion-grid class="task-description" (click)="taskSelected(task)">
+      <ion-row>
+        <ion-col>
+          <div>
+            <small class="date">{{ task.date | date: 'dd/MM/yyy' }}</small>
+            <span>
+              {{ task.description }}
+            </span>
+          </div>
+          <div class="badge" [style.background-color]="task.project.color">{{ task.project.name }}</div>
+        </ion-col>
+        <ion-col col-2>
+          <button ion-button float-right icon-only clear (click)="taskSelected(task)">
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-item>
 </ion-list>
+
+
+
 
 <ng-template #noTasks>
   <div class="no-task-container">

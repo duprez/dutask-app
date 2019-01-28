@@ -22,6 +22,8 @@ export class MyApp implements OnInit {
   labels: Label[];
   projects: Project[];
 
+  user: User;
+
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
@@ -55,8 +57,13 @@ export class MyApp implements OnInit {
         this.tasksProvider.getUser();
         this.getLabels();
         this.getProjects();
+        this.getUser();
       }
     });
+  }
+
+  getUser() {
+    this.user = this.auth.getLoggedUser();
   }
 
   getLabels() {

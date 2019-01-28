@@ -6,6 +6,11 @@
   </ion-header>
 
   <ion-content>
+    <div *ngIf="user && user.photo?.length" class="user-container">
+      <img [src]="user.photo">
+      <h5>{{ user.fullName }}</h5>
+      <small>{{ user.email }}</small>
+    </div>
     <ion-list>
       <ng-container *ngFor="let p of pages">
         <ng-container *ngIf="(!p.component || p.pages?.length) else option">
@@ -33,10 +38,12 @@
         </ng-template>
       </ng-container>
     </ion-list>
-    <button ion-button icon-start (click)="logout()" color="primary" clear class="logout">
-      <ion-icon name="log-out"></ion-icon>
-      Logout
-    </button>
+    <div class="logout">
+      <button ion-button icon-start (click)="logout()" color="primary" clear>
+        <ion-icon name="log-out"></ion-icon>
+        Salir
+      </button>
+    </div>
   </ion-content>
 
 </ion-menu>
