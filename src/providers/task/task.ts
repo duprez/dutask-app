@@ -78,6 +78,20 @@ export class TaskProvider {
       .delete();
   }
 
+  updateTask(task: Task) {
+    return this.db.collection("task")
+    .doc(task.id)
+    .update({
+      user: this.userEmail,
+      project: task.project,
+      priority: task.priority,
+      labels: task.labels,
+      description: task.description,
+      date: task.date,
+      comment: task.comment
+    });
+  }
+
   addTask(task: Task) {
     task.user = this.userEmail;
     return this.db.collection("task").add(task);

@@ -11,6 +11,7 @@
           clear
           icon-only
           (click)="openCalendar()"
+          [disabled]="!taskList?.length"
         >
         <ion-icon name="calendar"></ion-icon>
       </button>

@@ -10,7 +10,6 @@ import { TaskProvider } from '../providers/task/task';
 import { LabelFormPage } from '../pages/label-form/label-form';
 import { SignupPage } from '../pages/signup/signup';
 import { AlertController } from 'ionic-angular';
-import { CalendarPage } from '../pages/calendar/calendar';
 
 @Component({
   templateUrl: 'app.html'

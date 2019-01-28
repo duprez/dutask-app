@@ -5,7 +5,7 @@
             <ion-icon name="arrow-back"></ion-icon>
           </button>
         </ion-buttons>
-    <ion-title>Nueva tarea</ion-title>
+    <ion-title>{{ task ? 'Editar' : 'Nueva' }} tarea</ion-title>
     <ion-buttons end>
       <button
         type="button"
@@ -46,7 +46,7 @@
 
       <ion-item color="transparent">
         <ion-label floating>Proyectos</ion-label>
-        <ion-select formControlName="project">
+        <ion-select formControlName="project" [compareWith]="projectCompare">
           <ion-option *ngFor="let project of projects" [value]="project">{{
             project.name
           }}</ion-option>
@@ -55,7 +55,7 @@
 
       <ion-item color="transparent">
         <ion-label floating>Etiquetas</ion-label>
-        <ion-select formControlName="labels" multiple="true">
+        <ion-select formControlName="labels" multiple="true" [compareWith]="labelCompare">
           <ion-option *ngFor="let label of labels" [value]="label">{{
             label.name
           }}</ion-option>
