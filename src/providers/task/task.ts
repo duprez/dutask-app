@@ -72,10 +72,12 @@ export class TaskProvider {
   }
 
   completeTask(task: Task) {
-    return this.db
-      .collection("task")
-      .doc(task.id)
-      .delete();
+    setTimeout(() => {
+      return this.db
+        .collection("task")
+        .doc(task.id)
+        .delete();
+    }, 500);
   }
 
   updateTask(task: Task) {

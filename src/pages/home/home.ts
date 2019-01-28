@@ -65,9 +65,10 @@ export class HomePage implements OnInit {
   }
 
   completeTask(task: Task) {
-    this.taskProvider.completeTask(task).then(res => {
+    this.taskProvider.completeTask(task);
+    setTimeout(() => {
       this.presentToast("¡Tarea completada!");
-    });
+    }, 500);
   }
 
   openTaskForm() {
