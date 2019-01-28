@@ -108,6 +108,13 @@ export class TaskProvider {
     return this.db.collection("labels").add(label);
   }
 
+  removeLabel(label: Label) {
+    return this.db
+      .collection("labels")
+      .doc(label.id)
+      .delete();
+  }
+
   getProjects(): Observable<Project[]> {
     return new Observable(observer => {
       this.projectRef
@@ -131,5 +138,12 @@ export class TaskProvider {
   addProject(project: Project) {
     project.user = this.userEmail;
     return this.db.collection("projects").add(project);
+  }
+
+  removeProject(project: Project) {
+    return this.db
+      .collection("projects")
+      .doc(project.id)
+      .delete();
   }
 }

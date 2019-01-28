@@ -9,6 +9,7 @@ import { LoginPage } from './../pages/login/login';
 import { TaskProvider } from '../providers/task/task';
 import { LabelFormPage } from '../pages/label-form/label-form';
 import { SignupPage } from '../pages/signup/signup';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,13 +25,17 @@ export class MyApp implements OnInit {
 
   user: User;
 
+  configLabels: boolean;
+  configProjects: boolean;
+
   constructor(
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public auth: AuthProvider,
     public menu: MenuController,
-    private tasksProvider: TaskProvider
+    private tasksProvider: TaskProvider,
+    private alertCtrl: AlertController
   ) {
     this.initializeApp();
 
@@ -72,6 +77,7 @@ export class MyApp implements OnInit {
       this.pages[1].pages = [];
       this.labels.forEach(label => {
         this.pages[1].pages.push({
+          id: label.key,
           title: label.name,
           color: label.color,
           component: HomePage,
@@ -87,6 +93,7 @@ export class MyApp implements OnInit {
       this.pages[2].pages = [];
       this.projects.forEach(project => {
         this.pages[2].pages.push({
+          id: project.key,
           title: project.name,
           color: project.color,
           component: HomePage,
@@ -121,10 +128,59 @@ export class MyApp implements OnInit {
     });
   }
   
-  onAction(component) {
+  onAction(component: string, type: string) {
+    console.log(type);
     if (component !== null) {
       this.menu.close();
       this.nav.setRoot(component);
+    } else {
+      switch (type.toUpperCase()) {
+        case 'ETIQUETAS':
+          this.configLabels = !this.configLabels;
+          break;
+        case 'PROYECTOS':
+          this.configProjects = !this.configProjects;
+          break;
+      }
     }
+  }
+
+  removeSubpage(subpage, type: string) {
+    let text;
+    let mode;
+    switch (type) {
+      case 'ETIQUETAS':
+        text = 'la etiqueta';
+        mode = 1;
+        break;
+      case 'PROYECTOS':
+        text = 'el proyecto';
+        mode = 2;
+        break;
+    }
+    let alert = this.alertCtrl.create({
+      title: 'Borrar etiqueta',
+      message: `¿Está seguro de que quiere borrar ${text} "${subpage.title}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Borrar',
+          handler: () => {
+            switch (mode) {
+              case 1:
+                this.tasksProvider.removeLabel(subpage);
+                break;
+              case 2:
+                this.tasksProvider.removeProject(subpage);
+                break;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
