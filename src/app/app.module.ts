@@ -6,7 +6,7 @@ import { LoginPageModule } from './../pages/login/login.module';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { ComponentsModule } from './../components/components.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
@@ -33,6 +33,12 @@ const config = {
   messagingSenderId: "393206743045"
 };
 
+import { CalendarModule } from "ion2-calendar";
+import { registerLocaleData } from '@angular/common';
+import esEs from '@angular/common/locales/es';
+registerLocaleData(esEs);
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -49,6 +55,7 @@ const config = {
     LabelFormPageModule,
     ProjectFormPageModule,
     StorageServiceModule,
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,6 +63,7 @@ const config = {
     HomePage
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: "es-ES" },
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
