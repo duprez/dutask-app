@@ -1,0 +1,38 @@
+page-about {
+    .made-with {
+        font-size: 18px !important;
+    }
+    .social-container {
+        > p {
+            font-size: 16px;
+        }
+        .social-item {
+            font-size: 16px;
+            .social-content {
+                display: flex;
+                align-items: center;
+                align-content: center;
+                ion-icon .icon, .icon-md, .icon-ios {
+                    font-size: 29px;
+                    margin-right: 15px;
+                }
+                a {
+                    text-decoration: none;
+                    color: #fafafa;
+                }
+            }
+        }
+    }
+    .item-ios ion-avatar img,
+    .item-md ion-avatar img {
+        width: 75px;
+        height: 75px;
+    }
+    .item-ios.item-block .item-inner,
+    .item-md.item-block .item-inner {
+        border-bottom: transparent;
+    }
+    .avatar-item {
+        padding: 0;
+    }
+}

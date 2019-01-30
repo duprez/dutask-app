@@ -1,3 +1,4 @@
+import { AboutPageModule } from '../pages/about/about.module';
 import { ProjectFormPageModule } from './../pages/project-form/project-form.module';
 import { LabelFormPageModule } from './../pages/label-form/label-form.module';
 import { TaskPageModule } from './../pages/task/task.module';
@@ -33,6 +34,7 @@ const config = {
   messagingSenderId: "393206743045"
 };
 
+// CALENDARIO
 import { CalendarModule } from "ion2-calendar";
 import { registerLocaleData } from '@angular/common';
 import esEs from '@angular/common/locales/es';
@@ -55,7 +57,8 @@ registerLocaleData(esEs);
     LabelFormPageModule,
     ProjectFormPageModule,
     StorageServiceModule,
-    CalendarModule
+    CalendarModule,
+    AboutPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

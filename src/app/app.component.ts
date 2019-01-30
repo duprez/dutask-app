@@ -10,6 +10,7 @@ import { TaskProvider } from '../providers/task/task';
 import { LabelFormPage } from '../pages/label-form/label-form';
 import { SignupPage } from '../pages/signup/signup';
 import { AlertController } from 'ionic-angular';
+import { AboutPage } from '../pages/about/about';
 
 @Component({
   templateUrl: 'app.html'
@@ -52,7 +53,7 @@ export class MyApp implements OnInit {
       ], pages: []
     },
     { title: 'Ajustes', component: HomePage, icon: 'options' },
-    { title: 'Acerca de', component: HomePage, icon: 'information-circle' }
+    { title: 'Acerca de', component: AboutPage, icon: 'information-circle' }
     ];
   }
   
