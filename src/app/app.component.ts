@@ -19,7 +19,7 @@ export class MyApp implements OnInit {
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any, actions?: any[], pages?: any[]}>;
+  pages: Array<{title: string, component: any, icon?: string, actions?: any[], pages?: any[]}>;
   labels: Label[];
   projects: Project[];
 
@@ -39,19 +39,20 @@ export class MyApp implements OnInit {
   ) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Tareas', component: HomePage },
+      { title: 'Tareas', component: HomePage, icon: 'list-box' },
       { title: 'Etiquetas', component: null, actions: [
         { icon: 'construct', component: null },
         { icon: 'add', component: LabelFormPage },
-        ], pages: [] 
-      },
-      { title: 'Proyectos', component: null, actions: [
-        { icon: 'construct', component: null },
-        { icon: 'add', component: ProjectFormPage },
-        ], pages: []
-      }
+      ], pages: [] 
+    },
+    { title: 'Proyectos', component: null, actions: [
+      { icon: 'construct', component: null },
+      { icon: 'add', component: ProjectFormPage },
+      ], pages: []
+    },
+    { title: 'Ajustes', component: HomePage, icon: 'options' },
+    { title: 'Acerca de', component: HomePage, icon: 'information-circle' }
     ];
   }
   

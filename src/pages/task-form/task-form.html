@@ -40,6 +40,8 @@
           class="date-picker"
           displayFormat="DD/MM/YYYY"
           pickerFormat="DD/MM/YYYY"
+          [max]="year + 5"
+          [min]="year"
           formControlName="date"
         ></ion-datetime>
       </ion-item>
@@ -67,7 +69,7 @@
           <ion-icon name="clipboard"></ion-icon>
           Escriba aquí su comentario
         </ion-label>
-        <ion-textarea formControlName="comment" floating></ion-textarea>
+        <ion-textarea formControlName="comment" floating rows="5"></ion-textarea>
       </ion-item>
     </ion-list>
   </form>

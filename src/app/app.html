@@ -60,7 +60,8 @@
 
         <ng-template #option>
           <button ion-item (click)="openPage(p)" color="transparent">
-            {{ p.title }}
+            <ion-icon *ngIf="p.icon" [name]="p.icon" style="margin-right: 7px;"></ion-icon>
+            <span>{{ p.title }}</span>
           </button>
         </ng-template>
       </ng-container>

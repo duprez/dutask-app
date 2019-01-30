@@ -13,6 +13,7 @@ export class TaskFormPage {
   projects: Project[];
 
   task: Task;
+  year: number = new Date().getFullYear();
 
   constructor(
     public navCtrl: NavController,

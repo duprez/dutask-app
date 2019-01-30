@@ -2,7 +2,7 @@ import { TaskPage } from "./../task/task";
 import { TaskProvider } from "./../../providers/task/task";
 import { TaskFormPage } from "./../task-form/task-form";
 import { Component, OnInit } from "@angular/core";
-import { NavController, ModalController, ToastController, NavParams } from "ionic-angular";
+import { NavController, ModalController, ToastController, NavParams, LoadingController } from "ionic-angular";
 import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
 import * as moment from 'moment';
 
@@ -23,7 +23,8 @@ export class HomePage implements OnInit {
     public navParams: NavParams,
     public modalCtrl: ModalController,
     private taskProvider: TaskProvider,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    public loadingCtrl: LoadingController
   ) {
     moment.locale('es-ES');
   }
@@ -33,6 +34,16 @@ export class HomePage implements OnInit {
     this.getLabels();
     this.getProjects();
   }
+
+  presentLoading(message: string) {
+    let loading = this.loadingCtrl.create({
+      content: message
+    });
+  
+    loading.present();
+    return loading;
+  }
+  
 
   presentToast(message) {
     let toast = this.toastCtrl.create({
@@ -46,9 +57,11 @@ export class HomePage implements OnInit {
   }
 
   getTasks(filter?: any) {
+    const loading = this.presentLoading('Cargando sus tareas');
     this.taskProvider.getTasks(filter).subscribe(res => {
       this.taskList = res;
       this.filteredTaskList = this.taskList;
+      loading.dismiss();
     });
   }
 
