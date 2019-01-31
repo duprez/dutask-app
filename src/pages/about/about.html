@@ -1,0 +1,45 @@
+<ion-content padding>
+  <div>
+    <div class="avatar-container">
+      <ion-item color="transparent" class="avatar-item">
+        <ion-avatar item-start>
+          <img src="../../assets/imgs/me.png" />
+        </ion-avatar>
+        <h2>Antonio Duprez Hernández</h2>
+        <p>Desarrollador web</p>
+      </ion-item>
+    </div>
+    <div class="social-container">
+      <p>
+        ¡Hey! Soy un programador al que le gusta aprender nuevos lenguajes y hacer cosas novedosas.
+        Dicen que tengo un "perfil" más front-end pero mis ganas de aprender y
+        mejorar me llevan siempre al lado oscuro del back-end.
+      </p>
+      <p>
+        Si quieres contactar conmigo... ¡Por aquí te dejo mis redes sociales!
+      </p>
+      <ion-list margin-top>
+        <ion-item
+          *ngFor="let social of socials"
+          color="transparent"
+          class="social-item"
+        >
+          <div class="social-content">
+            <ion-icon [name]="social.icon" [style.color]="social.color"></ion-icon>
+            <a [href]="social.link" target="_blank">{{ social.name }}</a>
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title text-center>
+      <div class="made-with">
+        Made with <ion-icon name="heart" color="danger"></ion-icon> by duprez
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

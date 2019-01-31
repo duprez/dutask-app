@@ -1,3 +1,17 @@
 page-project-form {
-
+    .round {
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        margin-right: 5px;
+        display: inline-block;
+        color: red !important;
+    }
+    .color-text {
+        color: #8c8c8c;
+    }
+    .color-picker {
+        width: 100% !important;
+        margin-top: 10px;
+    }
 }

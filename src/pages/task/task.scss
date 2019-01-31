@@ -1,3 +1,14 @@
 page-task {
-
+    .badge {
+        border-radius: 5px;
+        text-align: center;
+        width: 100px;
+        display: inline-block;
+        padding: 2px 0;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+    .comment-container {
+        margin-top: 15px;
+    }
 }

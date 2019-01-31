@@ -5,26 +5,35 @@
         <ion-icon name="arrow-back"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{ task.description }}</ion-title>
+    <ion-title>Asunto: {{ task.description | lowercase }}</ion-title>
   </ion-navbar>
-
-  <ion-toolbar>
-    <ion-title>
-      <ion-badge item-end> {{ task.project.name }}</ion-badge>
-      <ion-badge
-        *ngFor="let label of task.labels"
-        item-end
-        [style.background-color]="label.color"
-        style="margin-right: 5px"
-      >
-        {{ label.name }}
-      </ion-badge>
-    </ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  {{ task.comment || "Esta tarea no tiene ningún comentario" }}
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="badge" [style.background-color]="task.project.color">{{ task.project.name }}</div>
+        <div class="badge" *ngFor="let label of task.labels" [style.background-color]="label.color">{{ label.name }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="comment-container">
+        <h4>
+          <ion-icon name="clipboard"></ion-icon> Comentario:
+        </h4>
+        <div>
+          {{ task.comment || "Esta tarea no tiene ningún comentario" }}
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab bottom right>
+    <button ion-fab mini (click)="editTask()">
+      <ion-icon name="create"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>
 
 <ion-footer>

@@ -1,62 +1,93 @@
 <ion-header>
-  <ion-navbar> <ion-title>Nueva tarea</ion-title> </ion-navbar>
+  <ion-navbar>
+      <ion-buttons left margin-left>
+          <button ion-button icon-only (click)="cancel()">
+            <ion-icon name="arrow-back"></ion-icon>
+          </button>
+        </ion-buttons>
+    <ion-title>{{ task ? 'Editar' : 'Nueva' }} tarea</ion-title>
+    <ion-buttons end>
+      <button
+        type="button"
+        ion-button
+        clear
+        icon-only
+        (click)="onSubmit()"
+        [disabled]="!taskForm || taskForm.invalid"
+      >
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <form novalidate [formGroup]="taskForm">
     <ion-list>
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label floating>Escriba su tarea aquí</ion-label>
         <ion-input type="text" formControlName="description"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label>Prioridad alta</ion-label>
         <ion-toggle formControlName="priority"></ion-toggle>
       </ion-item>
 
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label>Fecha</ion-label>
-        <ion-datetime formControlName="date"></ion-datetime>
+        <ion-datetime
+          class="date-picker"
+          displayFormat="DD/MM/YYYY"
+          pickerFormat="DD/MM/YYYY"
+          [max]="year + 5"
+          [min]="year"
+          formControlName="date"
+        ></ion-datetime>
       </ion-item>
 
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label floating>Proyectos</ion-label>
-        <ion-select formControlName="project">
-          <ion-option *ngFor="let project of projects" 
-            [value]="project">{{ project.name }}</ion-option>
+        <ion-select formControlName="project" [compareWith]="projectCompare">
+          <ion-option *ngFor="let project of projects" [value]="project">{{
+            project.name
+          }}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label floating>Etiquetas</ion-label>
-        <ion-select formControlName="labels" multiple="true">
+        <ion-select formControlName="labels" multiple="true" [compareWith]="labelCompare">
           <ion-option *ngFor="let label of labels" [value]="label">{{
             label.name
           }}</ion-option>
         </ion-select>
       </ion-item>
 
-      <ion-item>
-        <ion-label floating>Comentario</ion-label>
-        <ion-textarea formControlName="comment" floating></ion-textarea>
+      <ion-item color="transparent">
+        <ion-label floating>
+          <ion-icon name="clipboard"></ion-icon>
+          Escriba aquí su comentario
+        </ion-label>
+        <ion-textarea formControlName="comment" floating rows="5"></ion-textarea>
       </ion-item>
     </ion-list>
   </form>
 </ion-content>
 
-<ion-footer padding>
-  <button type="button" ion-button color="danger" outline (click)="cancel()">
+<!-- <ion-footer padding>
+  <button type="button" ion-button color="danger" clear (click)="cancel()">
     Cancelar
   </button>
   <button
     type="button"
     ion-button
-    outline
+    clear
     float-right
+    color="success"
     (click)="onSubmit()"
     [disabled]="!taskForm || taskForm.invalid"
   >
     Guardar tarea
   </button>
-</ion-footer>
+</ion-footer> -->

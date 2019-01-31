@@ -41,26 +41,57 @@ export class TaskProvider {
               comment: data.comment
             });
           });
-          // FILTRAR POR ETIQUETAS MODO GITAN
-          let _tasks;
-          if (params !== "") {
-            _tasks = [];
-            tasks.forEach(task => {
-              if (task.labels.findIndex(label => label.id === params) >= 0) {
-                _tasks.push(task);
-              }
-            });
-          }
-          observer.next(_tasks ? _tasks : tasks);
+          observer.next(
+            this.filterTasksByLabelsOrProject(tasks, params)
+          );
         });
     });
   }
 
+  filterTasksByLabelsOrProject(tasks: Task[], params: any) {
+    if (params !== "") {
+      // FILTRAR POR ETIQUETAS MODO GITAN
+      let _tasks = [];
+      tasks.forEach(task => {
+        if (
+          task.labels && 
+          task.labels.length &&
+          task.labels.findIndex(label => label.id === params) >= 0) {
+          _tasks.push(task);
+        } else if (
+          task.project && 
+          task.project.id === params
+        ) {
+          _tasks.push(task);
+        }
+      });
+      return _tasks;
+    } else {
+      return tasks;
+    }
+  }
+
   completeTask(task: Task) {
-    return this.db
-      .collection("task")
-      .doc(task.id)
-      .delete();
+    setTimeout(() => {
+      return this.db
+        .collection("task")
+        .doc(task.id)
+        .delete();
+    }, 500);
+  }
+
+  updateTask(task: Task) {
+    return this.db.collection("task")
+    .doc(task.id)
+    .update({
+      user: this.userEmail,
+      project: task.project,
+      priority: task.priority,
+      labels: task.labels,
+      description: task.description,
+      date: task.date,
+      comment: task.comment
+    });
   }
 
   addTask(task: Task) {
@@ -93,6 +124,13 @@ export class TaskProvider {
     return this.db.collection("labels").add(label);
   }
 
+  removeLabel(label: Label) {
+    return this.db
+      .collection("labels")
+      .doc(label.id)
+      .delete();
+  }
+
   getProjects(): Observable<Project[]> {
     return new Observable(observer => {
       this.projectRef
@@ -116,5 +154,12 @@ export class TaskProvider {
   addProject(project: Project) {
     project.user = this.userEmail;
     return this.db.collection("projects").add(project);
+  }
+
+  removeProject(project: Project) {
+    return this.db
+      .collection("projects")
+      .doc(project.id)
+      .delete();
   }
 }

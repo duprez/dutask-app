@@ -2,12 +2,12 @@
   <div class="login-container">
     <form (ngSubmit)="login()" [formGroup]="loginForm">
       <ion-list>
-        <ion-item>
+        <ion-item color="transparent">
           <ion-label floating>Email</ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item color="transparent">
           <ion-label floating>Contraseña</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
@@ -15,19 +15,31 @@
 
       <div *ngIf="loginError" color="danger">{{ loginError }}</div>
 
-      <button type="submit" ion-button block [disabled]="!loginForm || loginForm.invalid">Conectarme</button>
+      <div class="login-icons">
+        <button ion-button clear (click)="singUp()">Registrate</button>
+
+        <button
+          type="submit"
+          ion-button
+          clear
+          float-right
+          [disabled]="!loginForm || loginForm.invalid"
+        >
+          Iniciar sesión
+        </button>
+
+        <div bottom>
+          <button ion-button icon-left  (click)="loginWithGoogle()">
+            <ion-icon name="logo-google"></ion-icon>
+            CONECTAR CON GOOGLE
+          </button>
+
+          <button ion-button icon-left  (click)="loginWithGoogle()">
+            <ion-icon name="logo-github"></ion-icon>
+            CONECTAR CON GITHUB
+          </button>
+        </div>
+      </div>
     </form>
-
-    <ion-list>
-      <button ion-button icon-left block clear (click)="loginWithGoogle()">
-        <ion-icon name="logo-google"></ion-icon>
-        Conectar con Google
-      </button>
-
-      <button ion-button icon-left block clear (click)="singUp()">
-        <ion-icon name="person-add"></ion-icon>
-        Registrate
-      </button>
-    </ion-list>
   </div>
 </ion-content>

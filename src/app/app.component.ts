@@ -9,6 +9,8 @@ import { LoginPage } from './../pages/login/login';
 import { TaskProvider } from '../providers/task/task';
 import { LabelFormPage } from '../pages/label-form/label-form';
 import { SignupPage } from '../pages/signup/signup';
+import { AlertController } from 'ionic-angular';
+import { AboutPage } from '../pages/about/about';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,9 +20,14 @@ export class MyApp implements OnInit {
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any, actions?: any[], pages?: any[]}>;
+  pages: Array<{title: string, component: any, icon?: string, actions?: any[], pages?: any[]}>;
   labels: Label[];
   projects: Project[];
+
+  user: User;
+
+  configLabels: boolean;
+  configProjects: boolean;
 
   constructor(
     public platform: Platform,
@@ -28,21 +35,25 @@ export class MyApp implements OnInit {
     public splashScreen: SplashScreen,
     public auth: AuthProvider,
     public menu: MenuController,
-    private tasksProvider: TaskProvider
+    private tasksProvider: TaskProvider,
+    private alertCtrl: AlertController
   ) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Tareas', component: HomePage },
+      { title: 'Tareas', component: HomePage, icon: 'list-box' },
       { title: 'Etiquetas', component: null, actions: [
-        {icon: 'add', component: LabelFormPage}
-        ], pages: [] 
-      },
-      { title: 'Proyectos', component: null, actions: [
-        { icon: 'add', component: ProjectFormPage }
-        ], pages: []
-      }
+        { icon: 'construct', component: null },
+        { icon: 'add', component: LabelFormPage },
+      ], pages: [] 
+    },
+    { title: 'Proyectos', component: null, actions: [
+      { icon: 'construct', component: null },
+      { icon: 'add', component: ProjectFormPage },
+      ], pages: []
+    },
+    { title: 'Ajustes', component: HomePage, icon: 'options' },
+    { title: 'Acerca de', component: AboutPage, icon: 'information-circle' }
     ];
   }
   
@@ -53,8 +64,13 @@ export class MyApp implements OnInit {
         this.tasksProvider.getUser();
         this.getLabels();
         this.getProjects();
+        this.getUser();
       }
     });
+  }
+
+  getUser() {
+    this.user = this.auth.getLoggedUser();
   }
 
   getLabels() {
@@ -63,6 +79,7 @@ export class MyApp implements OnInit {
       this.pages[1].pages = [];
       this.labels.forEach(label => {
         this.pages[1].pages.push({
+          id: label.key,
           title: label.name,
           color: label.color,
           component: HomePage,
@@ -78,6 +95,7 @@ export class MyApp implements OnInit {
       this.pages[2].pages = [];
       this.projects.forEach(project => {
         this.pages[2].pages.push({
+          id: project.key,
           title: project.name,
           color: project.color,
           component: HomePage,
@@ -112,10 +130,58 @@ export class MyApp implements OnInit {
     });
   }
   
-  onAction(component) {
+  onAction(component: string, type: string) {
     if (component !== null) {
       this.menu.close();
       this.nav.setRoot(component);
+    } else {
+      switch (type.toUpperCase()) {
+        case 'ETIQUETAS':
+          this.configLabels = !this.configLabels;
+          break;
+        case 'PROYECTOS':
+          this.configProjects = !this.configProjects;
+          break;
+      }
     }
+  }
+
+  removeSubpage(subpage, type: string) {
+    let text;
+    let mode;
+    switch (type) {
+      case 'ETIQUETAS':
+        text = 'la etiqueta';
+        mode = 1;
+        break;
+      case 'PROYECTOS':
+        text = 'el proyecto';
+        mode = 2;
+        break;
+    }
+    let alert = this.alertCtrl.create({
+      title: 'Borrar etiqueta',
+      message: `¿Está seguro de que quiere borrar ${text} "${subpage.title}"?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Borrar',
+          handler: () => {
+            switch (mode) {
+              case 1:
+                this.tasksProvider.removeLabel(subpage);
+                break;
+              case 2:
+                this.tasksProvider.removeProject(subpage);
+                break;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

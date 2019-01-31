@@ -1,3 +1,4 @@
+import { AboutPageModule } from '../pages/about/about.module';
 import { ProjectFormPageModule } from './../pages/project-form/project-form.module';
 import { LabelFormPageModule } from './../pages/label-form/label-form.module';
 import { TaskPageModule } from './../pages/task/task.module';
@@ -6,7 +7,7 @@ import { LoginPageModule } from './../pages/login/login.module';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { ComponentsModule } from './../components/components.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
@@ -33,6 +34,13 @@ const config = {
   messagingSenderId: "393206743045"
 };
 
+// CALENDARIO
+import { CalendarModule } from "ion2-calendar";
+import { registerLocaleData } from '@angular/common';
+import esEs from '@angular/common/locales/es';
+registerLocaleData(esEs);
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -48,7 +56,9 @@ const config = {
     TaskPageModule,
     LabelFormPageModule,
     ProjectFormPageModule,
-    StorageServiceModule
+    StorageServiceModule,
+    CalendarModule,
+    AboutPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,6 +66,7 @@ const config = {
     HomePage
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: "es-ES" },
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

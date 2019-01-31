@@ -4,18 +4,30 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Tareas</ion-title>
+    <ion-buttons end>
+        <button
+          type="button"
+          ion-button
+          clear
+          icon-only
+          (click)="openCalendar()"
+          [disabled]="!taskList?.length"
+        >
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content color="success" padding>
 
   <task-list 
-    [tasks]="taskList" 
+    [tasks]="filteredTaskList" 
     (completeTask)="completeTask($event.task)"
     (selectTask)="selectTask($event.task)"></task-list>
 
   <ion-fab bottom right>
-    <button ion-fab (click)="openTaskForm()">
+    <button ion-fab mini (click)="openTaskForm()">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>

@@ -15,7 +15,7 @@ task-list {
     position: relative;
     padding-left: 35px;
     font: 14px/20px "Open Sans", Arial, sans-serif;
-    color: black;
+    color: #fff;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -30,7 +30,7 @@ task-list {
     border: 1px solid #6cc0e5;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 13px;
     opacity: 0.6;
     -webkit-transition: all 0.12s, border-color 0.08s;
     transition: all 0.12s, border-color 0.08s;
@@ -38,7 +38,7 @@ task-list {
 
   input[type="checkbox"]:checked + label:before {
     width: 10px;
-    top: -5px;
+    top: 10px;
     left: 5px;
     border-radius: 0;
     opacity: 1;
@@ -46,5 +46,54 @@ task-list {
     border-left-color: transparent;
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+  .no-task-container {
+    height: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .svg-content {
+      height: 300px;
+      width: 300px;
+      margin: 0 auto;
+    }
+    h3 {
+      margin: 0 0 5px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+
+  .badge {
+    border-radius: 5px;
+    text-align: center;
+    width: 70px;
+    margin: 6px 0;
+    padding: 2px 0;
+    display: inline-block;
+    font-size: 12px;
+  }
+
+  small {
+    font-size: 14px;
+    color: darken(#fafafa, 15%);
+    &.date {
+      font-style: italic;
+      margin-right: 5px;
+    }
+  }
+
+  .task-description {
+    position: relative;
+    left: 25px;
+    bottom: 10px;
+  }
+
+  .label-md, .label-ios {
+    margin: 0;
   }
 }

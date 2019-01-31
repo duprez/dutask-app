@@ -38,6 +38,17 @@ export class AuthProvider {
     this.storage.set("photo", user.photoURL);
   }
 
+  getLoggedUser() {
+    const email = this.storage.get("email");
+    const fullName = this.storage.get("fullName");
+    const photo = this.storage.get("photo");
+    return {
+      email: email,
+      fullName: fullName,
+      photo: photo
+    };
+  }
+
   createUser(email: string, password: string) {
     return firebase
       .auth()

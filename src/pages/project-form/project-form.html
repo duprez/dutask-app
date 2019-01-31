@@ -8,11 +8,10 @@
         ion-button
         clear
         icon-only
-        color="dark"
         (click)="onSubmit()"
         [disabled]="!projectForm || projectForm.invalid"
       >
-        <ion-icon name="send"></ion-icon>
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -21,25 +20,23 @@
 <ion-content padding>
   <form (ngSubmit)="onSubmit()" [formGroup]="projectForm">
     <ion-list>
-      <ion-item>
-        <ion-label floating>Identificador</ion-label>
+      <ion-item color="transparent">
+        <ion-label floating>ID</ion-label>
         <ion-input type="text" formControlName="id"></ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item color="transparent">
         <ion-label floating>Nombre</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label floating>Color</ion-label>
-        <ion-select formControlName="color">
-          <ion-option
-            *ngFor="let color of colors"
-            [ngStyle]="{ color: color.color }"
-            [value]="color.color"
-          >
-            {{ color.name }}
-          </ion-option>
-        </ion-select>
+      <ion-item color="transparent" margin-top>
+        <span class="color-text">Color</span>
+        <span
+          [style.background]="arrayColors[selectedColor]"
+          [cpToggle]="true"
+          [cpDialogDisplay]="'inline'"
+          [(colorPicker)]="arrayColors[selectedColor]"
+          (colorPickerChange)="onChangeColor($event)"
+        ></span>
       </ion-item>
     </ion-list>
   </form>
