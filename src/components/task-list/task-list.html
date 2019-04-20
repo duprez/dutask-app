@@ -1,5 +1,5 @@
 <ion-list *ngIf="tasks?.length; else noTasks">
-  <ion-item color="transparent" *ngFor="let task of tasks; let i = index;">
+  <ion-item color="light" *ngFor="let task of tasks; let i = index;">
     <input
       type="checkbox"
       [id]="'task-description' + i"

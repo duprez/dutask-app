@@ -68,9 +68,11 @@ export class AuthProvider {
   }
 
   private oauthSignIn(provider) {
-    if (!(<any>window).cordova) {
+    if ((<any>window).cordova) {
+      console.log('1');
       return this.fireAuth.auth.signInWithPopup(provider);
     } else {
+      console.log('2');
       return this.fireAuth.auth.signInWithRedirect(provider).then(() => {
         return this.fireAuth.auth
           .getRedirectResult()
@@ -80,6 +82,7 @@ export class AuthProvider {
             let token = result.credential.providerId;
             // The signed-in user info.
             let user = result.user;
+            console.log(token, user);
           })
           .catch(function(error) {
             return error;

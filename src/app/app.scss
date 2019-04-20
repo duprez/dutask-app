@@ -15,7 +15,7 @@
 
 .item-md, .item-ios {
     .item-block .item-inner {
-        border-bottom: transparent;
+        border-bottom: light;
     }
 }
 
@@ -43,3 +43,4 @@
         color: lighten(color($colors, primary), 5%);
     }
 }
+

@@ -1,0 +1,106 @@
+// Para los formularios construidos con una lista
+.list.inputs-form {
+  margin: 0;
+  .item {
+    max-width: 100vw;
+    background: none;
+    &:not(:last-child) {
+      padding: 15px;
+    }
+    &:last-child {
+      padding: 0 15px 15px;
+    }
+    .item-inner {
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      background: #fff;
+      color: #495057;
+      &:not(:last-child) {
+        border-bottom: 0;
+      }
+    }
+    &.item-input {
+      &:last-child {
+        border: 0;
+      }
+      // Control de errores
+      &.ng-invalid.ng-touched:not(.input-has-focus):not(.item-input-has-focus) {
+        border: 0;
+        box-shadow: none;
+        & .input .text-input {
+          color: #f53d3d;
+          &::placeholder {
+            color: #f53d3d;
+          }
+        }
+        & .item-inner {
+          border: 0;
+          box-shadow: none;
+        }
+        &:not(:last-child) {
+          // border-bottom: 0;
+        }
+        // Desactivar borde que pone al ultimo elemento de la lista
+        &:last-child {
+          // border: 0;
+          // box-shadow: none;
+        }
+      }
+      &.item-input-has-focus .item-inner, .item.item-input.input-has-focus .item-inner {
+        box-shadow: none;
+        border: 0;
+      }
+      &.item-input-has-focus:last-child, .list .item-input.input-has-focus:last-child {
+        box-shadow: none;
+        border: 0;
+      }
+      // Control de validaciones correctas
+      &.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+        border: 0;
+        box-shadow: none
+      }
+      &.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child, .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus):last-child {
+        box-shadow: none;
+        border: 0;
+      }
+    }
+  }
+
+  .input-with-icon {
+    display: flex;
+    justify-content: center;
+    &:not(:last-child) {
+      margin: 15px;
+    }
+    &:last-child {
+      margin: 0 15px 15px;
+    }
+    .icon {
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      width: 46px;
+      justify-content: center;
+      margin-bottom: 0;
+      font-size: 2.3rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      text-align: center;
+      white-space: nowrap;
+      background-color: #e9ecef;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    & .item {
+      padding: 0;
+      max-width: calc(100vw - 102px);
+      & .item-inner {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

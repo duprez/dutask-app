@@ -24,17 +24,17 @@
 <ion-content padding>
   <form novalidate [formGroup]="taskForm">
     <ion-list>
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>Escriba su tarea aquí</ion-label>
         <ion-input type="text" formControlName="description"></ion-input>
       </ion-item>
 
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label>Prioridad alta</ion-label>
         <ion-toggle formControlName="priority"></ion-toggle>
       </ion-item>
 
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label>Fecha</ion-label>
         <ion-datetime
           class="date-picker"
@@ -46,7 +46,7 @@
         ></ion-datetime>
       </ion-item>
 
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>Proyectos</ion-label>
         <ion-select formControlName="project" [compareWith]="projectCompare">
           <ion-option *ngFor="let project of projects" [value]="project">{{
@@ -55,7 +55,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>Etiquetas</ion-label>
         <ion-select formControlName="labels" multiple="true" [compareWith]="labelCompare">
           <ion-option *ngFor="let label of labels" [value]="label">{{
@@ -64,7 +64,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>
           <ion-icon name="clipboard"></ion-icon>
           Escriba aquí su comentario

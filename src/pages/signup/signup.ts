@@ -28,6 +28,7 @@ export class SignupPage {
   }
 
   singUp() {
+	  console.log('Entro a signup');
     const data = this.signUpForm.value;
     this.auth.createUser(data.email, data.password)
     .then(res => this.navCtrl.setRoot(HomePage))
@@ -35,7 +36,7 @@ export class SignupPage {
   }
 
   goToLogin() {
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

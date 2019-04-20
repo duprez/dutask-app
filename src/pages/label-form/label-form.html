@@ -20,15 +20,15 @@
 <ion-content padding>
   <form (ngSubmit)="onSubmit()" [formGroup]="labelForm">
     <ion-list>
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>ID</ion-label>
         <ion-input type="text" formControlName="id"></ion-input>
       </ion-item>
-      <ion-item color="transparent">
+      <ion-item color="light">
         <ion-label floating>Nombre</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
-      <ion-item color="transparent" margin-top>
+      <ion-item color="light" margin-top>
           <span class="color-text">Color</span>
           <span
             [style.background]="arrayColors[selectedColor]"

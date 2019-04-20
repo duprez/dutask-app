@@ -34,13 +34,13 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  light:      #fafafa,
+  light:      #00000000,
   primary:    #de4c4a,
   dark:       #282828,
   secondary:  #fafafa,
   success:    #32db64,
   danger:     #f53d3d,
-  transparent:#00000000
+  twitter:    #1ea1f2
 );
 
 // App iOS Variables
@@ -58,6 +58,11 @@ $toggle-md-handle-background-color-off: color($colors, secondary);
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
+
+// APP Generic
+$text-input-placeholder-color: #495057;
+$text-color:        #e4e6e7;
+$background-color:  #10161e;
 
 
 
@@ -85,3 +90,6 @@ $toggle-md-handle-background-color-off: color($colors, secondary);
 
 @import "roboto";
 @import "noto-sans";
+
+// Overwritting default component styling
+@import './components/inputs';

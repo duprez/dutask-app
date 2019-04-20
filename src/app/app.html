@@ -14,7 +14,7 @@
     <ion-list>
       <ng-container *ngFor="let p of pages">
         <ng-container *ngIf="!p.component || p.pages?.length; else option">
-          <ion-item color="transparent">
+          <ion-item color="light">
             {{ p.title }}
             <ng-container *ngIf="p.actions?.length">
               <button
@@ -29,7 +29,7 @@
               </button>
             </ng-container>
 
-            <ion-item color="transparent" *ngFor="let subpage of p.pages">
+            <ion-item color="light" *ngFor="let subpage of p.pages">
               <button
                 ion-button
                 clear
@@ -59,7 +59,7 @@
         </ng-container>
 
         <ng-template #option>
-          <button ion-item (click)="openPage(p)" color="transparent">
+          <button ion-item (click)="openPage(p)" color="light">
             <ion-icon *ngIf="p.icon" [name]="p.icon" style="margin-right: 7px;"></ion-icon>
             <span>{{ p.title }}</span>
           </button>

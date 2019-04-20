@@ -1,45 +1,66 @@
 <ion-content padding>
-  <div class="login-container">
-    <form (ngSubmit)="login()" [formGroup]="loginForm">
-      <ion-list>
-        <ion-item color="transparent">
-          <ion-label floating>Email</ion-label>
-          <ion-input type="email" formControlName="email"></ion-input>
-        </ion-item>
 
-        <ion-item color="transparent">
-          <ion-label floating>Contraseña</ion-label>
-          <ion-input type="password" formControlName="password"></ion-input>
-        </ion-item>
+  <div class="login-container">
+
+    <div class="header">
+      <div>
+        <img src="./../../assets/imgs/check.png">
+        <span>Dutask</span>
+      </div>
+      <sub>Gestiona todas tus tareas en una sola app</sub>
+    </div>
+
+
+    <form (ngSubmit)="login()" [formGroup]="loginForm" autocomplete="off" class="login-form">
+      <ion-list class="inputs-form">
+        <div class="input-with-icon">
+          <ion-icon name="at"></ion-icon>
+          <ion-item class="input-icon">
+            <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-with-icon">
+          <ion-icon name="lock"></ion-icon>
+          <ion-item>
+            <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
+          </ion-item>
+
+        </div>
       </ion-list>
 
       <div *ngIf="loginError" color="danger">{{ loginError }}</div>
 
-      <div class="login-icons">
-        <button ion-button clear (click)="singUp()">Registrate</button>
-
+      <div class="sing-in" text-center>
         <button
           type="submit"
           ion-button
-          clear
-          float-right
-          [disabled]="!loginForm || loginForm.invalid"
+          round
+          color="twitter"
         >
-          Iniciar sesión
+          <span>Iniciar sesión</span>
+          <ion-icon name="log-in"></ion-icon>
         </button>
-
-        <div bottom>
-          <button ion-button icon-left  (click)="loginWithGoogle()">
-            <ion-icon name="logo-google"></ion-icon>
-            CONECTAR CON GOOGLE
-          </button>
-
-          <button ion-button icon-left  (click)="loginWithGoogle()">
-            <ion-icon name="logo-github"></ion-icon>
-            CONECTAR CON GITHUB
-          </button>
-        </div>
       </div>
     </form>
+
+
+    <div class="sing-up">
+      <button type="button" ion-button block clear color="secondary" (click)="singUp()">¿Nuevo en Dutask? Regístrate aquí</button>
+
+      <div text-center>
+        <button type="button" ion-button outline round color="twitter" (click)="loginWithGoogle()">
+          <ion-icon name="logo-google"></ion-icon>
+        </button>
+
+        <button type="button" ion-button outline round color="twitter" (click)="loginWithGoogle()">
+          <ion-icon name="logo-github"></ion-icon>
+        </button>
+
+        <button type="button" ion-button outline round color="twitter" (click)="loginWithGoogle()">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </button>
+      </div>
+    </div>
   </div>
 </ion-content>
