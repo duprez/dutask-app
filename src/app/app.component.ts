@@ -1,26 +1,45 @@
-import { ProjectFormPage } from './../pages/project-form/project-form';
-import { AuthProvider } from './../providers/auth/auth';
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { Nav, Platform, MenuController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { HomePage } from '../pages/home/home';
-import { LoginPage } from './../pages/login/login';
-import { TaskProvider } from '../providers/task/task';
-import { LabelFormPage } from '../pages/label-form/label-form';
-import { SignupPage } from '../pages/signup/signup';
-import { AlertController } from 'ionic-angular';
-import { AboutPage } from '../pages/about/about';
+import {ProjectFormPage} from './../pages/project-form/project-form';
+import {AuthProvider} from './../providers/auth/auth';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AlertController, MenuController, Nav, Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {HomePage} from '../pages/home/home';
+import {LoginPage} from './../pages/login/login';
+import {TaskProvider} from '../providers/task/task';
+import {LabelFormPage} from '../pages/label-form/label-form';
+import {SignupPage} from '../pages/signup/signup';
+import {AboutPage} from '../pages/about/about';
+import {animate, state, style, transition, trigger,} from '@angular/animations';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
+  animations: [
+    trigger('openSubmenu', [
+      // ...
+      state('open', style({
+        height: '*',
+        display: 'auto'
+      })),
+      state('closed', style({
+        height: '0',
+        display: 'none'
+      })),
+      transition('open => closed', [
+        animate('0.3s')
+      ]),
+      transition('closed => open', [
+        animate('0.3s')
+      ]),
+    ]),
+  ]
 })
 export class MyApp implements OnInit {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage;
 
-  pages: Array<{title: string, component: any, icon?: string, actions?: any[], pages?: any[]}>;
+  pages: Array<{ title: string, component: any, icon?: string, rootPage: boolean, actions?: any[], pages?: any[], open?: boolean }>;
   labels: Label[];
   projects: Project[];
 
@@ -41,44 +60,56 @@ export class MyApp implements OnInit {
     this.initializeApp();
 
     this.pages = [
-      { title: 'Tareas', component: HomePage, icon: 'list-box' },
-      { title: 'Etiquetas', component: null, actions: [
-        { icon: 'construct', component: null },
-        { icon: 'add', component: LabelFormPage },
-      ], pages: [] 
+      {title: 'Bandeja de entrada', component: HomePage, icon: 'md-filing', rootPage: true},
+      {title: 'Hoy', component: HomePage, icon: 'time', rootPage: true},
+      {title: 'Este mes', component: HomePage, icon: 'calendar', rootPage: true},
+      {
+        title: 'Etiquetas', component: null, icon: 'bookmark', rootPage: false, actions: [
+          {icon: 'construct', component: null, rootPage: false},
+          {icon: 'add', component: LabelFormPage, rootPage: false},
+        ], pages: [], open: true
+      },
+      {
+        title: 'Proyectos', component: null, icon: 'folder', rootPage: false, actions: [
+          {icon: 'construct', component: null, rootPage: false},
+          {icon: 'add', component: ProjectFormPage, rootPage: false},
+        ], pages: [], open: true
     },
-    { title: 'Proyectos', component: null, actions: [
-      { icon: 'construct', component: null },
-      { icon: 'add', component: ProjectFormPage },
-      ], pages: []
-    },
-    { title: 'Ajustes', component: HomePage, icon: 'options' },
-    { title: 'Acerca de', component: AboutPage, icon: 'information-circle' }
+      {title: 'Ajustes', component: HomePage, icon: 'settings', rootPage: true},
+      {title: 'Acerca de', component: AboutPage, icon: 'information-circle', rootPage: true}
     ];
   }
   
   ngOnInit() {
-    this.nav.viewDidEnter.subscribe(res => {
-      this.rootPage = res.component;
+    this.getUser();
+    console.log('Usuario APP:', this.user);
+    // Para cuando el login de google hace el redireccionamiento
+    // Se comprueba que haya logeado el usuario y tenga email
+    if (this.user && this.user.email && this.auth.checkLoggedIn()) {
+      this.rootPage = HomePage;
+    }
+    this.nav.viewDidLoad.subscribe(res => {
       if (this.rootPage !== LoginPage && this.rootPage !== SignupPage) {
+        this.getUser();
         this.tasksProvider.getUser();
         this.getLabels();
         this.getProjects();
-        this.getUser();
       }
     });
   }
 
   getUser() {
     this.user = this.auth.getLoggedUser();
+    console.log('Cojo los datos del usuario', this.user);
   }
 
   getLabels() {
+    const labelsMenu = this.pages[3];
     this.tasksProvider.getLabels().subscribe(res => {
       this.labels = res;
-      this.pages[1].pages = [];
+      labelsMenu.pages = [];
       this.labels.forEach(label => {
-        this.pages[1].pages.push({
+        labelsMenu.pages.push({
           id: label.key,
           title: label.name,
           color: label.color,
@@ -86,22 +117,31 @@ export class MyApp implements OnInit {
           param: label.id
         });
       });
+
+      if (labelsMenu.pages.length <= 0) {
+        labelsMenu.open = false;
+      }
     });
   }
 
   getProjects() {
+    const projectMenu = this.pages[4];
     this.tasksProvider.getProjects().subscribe(res => {
       this.projects = res;
-      this.pages[2].pages = [];
+      projectMenu.pages = [];
       this.projects.forEach(project => {
-        this.pages[2].pages.push({
+        projectMenu.pages.push({
           id: project.key,
           title: project.name,
           color: project.color,
           component: HomePage,
           param: project.id
         });
-      })
+      });
+
+      if (projectMenu.pages.length <= 0) {
+        projectMenu.open = false;
+      }
     });
   }
 
@@ -133,7 +173,7 @@ export class MyApp implements OnInit {
   onAction(component: string, type: string) {
     if (component !== null) {
       this.menu.close();
-      this.nav.setRoot(component);
+      this.nav.push(component);
     } else {
       switch (type.toUpperCase()) {
         case 'ETIQUETAS':
@@ -146,10 +186,10 @@ export class MyApp implements OnInit {
     }
   }
 
-  removeSubpage(subpage, type: string) {
+  removeSubpage(subpage: any, type: string) {
     let text;
     let mode;
-    switch (type) {
+    switch (type.toUpperCase()) {
       case 'ETIQUETAS':
         text = 'la etiqueta';
         mode = 1;
@@ -183,5 +223,21 @@ export class MyApp implements OnInit {
       ]
     });
     alert.present();
+  }
+
+  editSubpage(subpage: any, type: string) {
+    let formPage;
+
+    switch (type.toUpperCase()) {
+      case 'ETIQUETAS':
+        formPage = LabelFormPage;
+        break;
+      case 'PROYECTOS':
+        formPage = ProjectFormPage;
+        break;
+    }
+    this.menu.close();
+    console.log(subpage, type);
+    this.nav.push(formPage, {id: subpage.param});
   }
 }

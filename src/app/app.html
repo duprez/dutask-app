@@ -1,76 +1,101 @@
 <ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-content>
-    <div *ngIf="user && user.photo?.length" class="user-container">
-      <img [src]="user.photo" />
-      <h5>{{ user.fullName }}</h5>
-      <small>{{ user.email }}</small>
-    </div>
-    <ion-list>
-      <ng-container *ngFor="let p of pages">
-        <ng-container *ngIf="!p.component || p.pages?.length; else option">
-          <ion-item color="light">
-            {{ p.title }}
-            <ng-container *ngIf="p.actions?.length">
-              <button
-                ion-button
-                icon-only
-                clear
-                float-right
-                *ngFor="let action of p.actions"
-                (click)="onAction(action.component, p.title)"
-              >
-                <ion-icon [name]="action.icon"></ion-icon>
-              </button>
-            </ng-container>
 
-            <ion-item color="light" *ngFor="let subpage of p.pages">
-              <button
-                ion-button
-                clear
-                class="subpage"
-                color="secondary"
-                (click)="openPage(subpage)"
-              >
-                <div [style.background-color]="subpage.color" class="round"></div>
-                <span class="subpage-title">{{ subpage.title }}</span>
-              </button>
-              <button
-                *ngIf="
-                (configLabels && p.title.toUpperCase() === 'ETIQUETAS') ||
-                (configProjects && p.title.toUpperCase() === 'PROYECTOS')"
-                ion-button
-                icon-only
-                clear
-                color="primary"
-                float-right
-                (click)="removeSubpage(subpage, p.title.toUpperCase())"
-              >
-                <ion-icon name="remove-circle"></ion-icon>
-              </button>
-              
+    <div class="menu-container">
+      <div *ngIf="user" class="user-container">
+        <img [src]="user.photo || './../assets/imgs/cat.png'"/>
+        <h5 *ngIf="user.fullName">{{ user.fullName }}</h5>
+        <small>{{ user.email }}</small>
+      </div>
+
+
+      <ion-list class="basic-list menu">
+        <ng-container *ngFor="let p of pages">
+          <ng-container *ngIf="!p.component || p.pages?.length; else option">
+            <ion-item class="submenu main-option">
+              <div class="menu-header">
+                <button class="arrow-button" ion-button icon-only clear (click)="p.open = !p.open"
+                        [disabled]="!p.pages?.length">
+                  <ion-icon class="arrow-icon" [name]="p.open ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
+                </button>
+                <span class="menu-title">{{ p.title }}</span>
+
+                <ng-container *ngIf="p.actions?.length">
+                  <button
+                    ion-button
+                    icon-only
+                    clear
+                    float-right
+                    *ngFor="let action of p.actions"
+                    (click)="onAction(action.component, p.title)"
+                    class="action-buttons"
+                  >
+                    <ion-icon [name]="action.icon"></ion-icon>
+                  </button>
+                </ng-container>
+              </div>
+
+              <div [@openSubmenu]="p.open ? 'open' : 'closed'">
+                <ion-item class="subpage-options" *ngFor="let subpage of p.pages">
+                  <button
+                    ion-button
+                    clear
+                    class="subpage"
+                    color="secondary"
+                    (click)="openPage(subpage)"
+                  >
+                    <div [style.background-color]="subpage.color" class="round"></div>
+                    <span class="subpage-title">{{ subpage.title }}</span>
+                  </button>
+
+                  <!-- Acciones de edicion sobre las etiquetas o proyectos (subpages) -->
+                  <button
+                    *ngIf="
+                  (configLabels && p.title.toUpperCase() === 'ETIQUETAS') ||
+                  (configProjects && p.title.toUpperCase() === 'PROYECTOS')"
+                    ion-button
+                    icon-only
+                    clear
+                    color="primary"
+                    float-right
+                    (click)="editSubpage(subpage, p.title.toUpperCase())"
+                  >
+                    <ion-icon name="create"></ion-icon>
+                  </button>
+                  <button
+                    *ngIf="
+                  (configLabels && p.title.toUpperCase() === 'ETIQUETAS') ||
+                  (configProjects && p.title.toUpperCase() === 'PROYECTOS')"
+                    ion-button
+                    icon-only
+                    clear
+                    color="primary"
+                    float-right
+                    (click)="removeSubpage(subpage, p.title.toUpperCase())"
+                  >
+                    <ion-icon name="remove-circle"></ion-icon>
+                  </button>
+                </ion-item>
+              </div>
             </ion-item>
-          </ion-item>
-        </ng-container>
+          </ng-container>
 
-        <ng-template #option>
-          <button ion-item (click)="openPage(p)" color="light">
-            <ion-icon *ngIf="p.icon" [name]="p.icon" style="margin-right: 7px;"></ion-icon>
-            <span>{{ p.title }}</span>
-          </button>
-        </ng-template>
-      </ng-container>
-    </ion-list>
-    <div class="logout">
-      <button ion-button icon-start (click)="logout()" color="primary" clear>
-        <ion-icon name="log-out"></ion-icon>
-        Salir
-      </button>
+          <ng-template #option>
+            <button ion-item class="main-option" (click)="openPage(p)">
+              <div class="menu-header">
+                <ion-icon *ngIf="p.icon" [name]="p.icon"></ion-icon>
+                <span class="menu-title">{{ p.title }}</span>
+              </div>
+            </button>
+          </ng-template>
+        </ng-container>
+      </ion-list>
+      <div class="logout">
+        <button ion-button icon-start (click)="logout()" color="primary" clear>
+          <span>Cerrar sesión</span>
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+      </div>
     </div>
   </ion-content>
 </ion-menu>

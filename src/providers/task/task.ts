@@ -1,7 +1,7 @@
-import { Observable } from "rxjs";
-import { Injectable, Inject } from "@angular/core";
-import { AngularFirestore } from "angularfire2/firestore";
-import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
+import {Observable} from "rxjs";
+import {Inject, Injectable} from "@angular/core";
+import {AngularFirestore} from "angularfire2/firestore";
+import {SESSION_STORAGE, StorageService} from "ngx-webstorage-service";
 
 @Injectable()
 export class TaskProvider {
@@ -25,6 +25,7 @@ export class TaskProvider {
   getTasks(params: any = ""): Observable<Task[]> {
     return new Observable(observer => {
       const query = this.taskRef;
+      console.log('this.userEmail', this.userEmail);
       this.taskRef
         .where("user", "==", (this.userEmail || null))
         .onSnapshot(querySnapshot => {
@@ -41,15 +42,17 @@ export class TaskProvider {
               comment: data.comment
             });
           });
+          console.log('Before', tasks);
           observer.next(
             this.filterTasksByLabelsOrProject(tasks, params)
           );
+          console.log('after', this.filterTasksByLabelsOrProject(tasks, params));
         });
     });
   }
 
   filterTasksByLabelsOrProject(tasks: Task[], params: any) {
-    if (params !== "") {
+    if (params && params !== "") {
       // FILTRAR POR ETIQUETAS MODO GITAN
       let _tasks = [];
       tasks.forEach(task => {
@@ -119,9 +122,29 @@ export class TaskProvider {
     });
   }
 
+  getLabel(labelId: string): Observable<Label> {
+    return new Observable(observer => {
+      this.getLabels().subscribe((labels: Label[]) => {
+        const label = labels.find(_label => _label.id === labelId);
+        observer.next(label);
+      });
+    });
+  }
+
   addLabel(label: Label) {
     label.user = this.userEmail;
+    console.log('this.userEmail', this.userEmail, label.user);
     return this.db.collection("labels").add(label);
+  }
+
+  updateLabel(labelKey: string, label: Label) {
+    return this.db.collection("labels")
+      .doc(labelKey)
+      .update({
+        color: label.color,
+        id: label.id,
+        name: label.name
+      });
   }
 
   removeLabel(label: Label) {
@@ -151,9 +174,28 @@ export class TaskProvider {
     });
   }
 
+  getProject(projectId: string): Observable<Project> {
+    return new Observable(observer => {
+      this.getProjects().subscribe((projects: Project[]) => {
+        const project = projects.find(_project => _project.id === projectId);
+        observer.next(project);
+      });
+    });
+  }
+
   addProject(project: Project) {
     project.user = this.userEmail;
     return this.db.collection("projects").add(project);
+  }
+
+  updateProject(projectKey: string, project: Project) {
+    return this.db.collection("projects")
+      .doc(projectKey)
+      .update({
+        color: project.color,
+        id: project.id,
+        name: project.name
+      });
   }
 
   removeProject(project: Project) {

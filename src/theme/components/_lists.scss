@@ -1,0 +1,15 @@
+.list.basic-list {
+  .item {
+    background-color: transparent;
+
+    .item-inner {
+      border: 0;
+      color: #fff;
+
+      .label .item-button {
+        text-transform: initial;
+
+      }
+    }
+  }
+}

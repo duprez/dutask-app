@@ -1,0 +1,161 @@
+// Parte 1: Datos de usuario
+.user-container {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 30px;
+
+  img {
+    height: 140px;
+    display: block;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 100%;
+  }
+
+  h5 {
+    margin: 5px 0;
+    color: color($colors, twitter);
+  }
+
+  small {
+    font-size: 17px;
+    color: lighten(color($colors, twitter), 5%);
+  }
+}
+
+// Parte 2: Opciones del menu
+.list.basic-list.menu {
+  .item {
+    &.main-option:not(:last-child) {
+      border-bottom: 1px solid #9e9e9e;
+    }
+
+    .item-inner .label {
+      & .icon {
+        font-size: 23px;
+        width: 20px;
+        margin-right: 12px;
+        margin-left: 10px;
+      }
+
+      & span {
+        font-size: 17px;
+      }
+
+      & .subpage {
+        & .icon {
+          font-size: 20px;
+        }
+
+        & span {
+          font-size: 16px;
+          color: #afafaf;
+        }
+      }
+
+      & .subpage-options {
+        align-self: initial;
+        min-height: max-content;
+
+        &:first-child {
+          margin-top: 7px;
+        }
+
+        .item-inner {
+          align-self: initial;
+          min-height: max-content;
+
+          & .input-wrapper {
+            align-self: initial;
+          }
+        }
+
+        .label {
+          margin: 0;
+          padding: 6px 0;
+
+          .subpage {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .no-subpages-text {
+      font-size: 16px;
+      color: #afafaf;
+      padding: 20px 0;
+    }
+  }
+
+  .item, .submenu {
+    .menu-header {
+      display: flex;
+      align-items: center;
+
+      .menu-title {
+        flex-grow: 1;
+      }
+    }
+
+    .action-buttons .button-inner .icon {
+      margin: 0 4px;
+    }
+
+
+  }
+}
+
+.round {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin-right: 15px;
+  display: inline-block;
+}
+
+.item .item-button {
+  &.arrow-button {
+    height: auto;
+
+    .arrow-icon {
+      color: #fff;
+      margin-left: 4px !important;
+    }
+  }
+
+  &.action-buttons {
+    margin: 0;
+    height: auto;
+    padding: 5px;
+  }
+
+}
+
+
+// Parte 3: Logout
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .menu {
+    flex-grow: 1;
+  }
+}
+
+.logout {
+  background-color: #191919;
+  padding: 10px 0;
+  width: 100%;
+
+  .button {
+    text-transform: initial;
+    font-size: 17px;
+
+    .icon {
+      margin-left: 10px;
+    }
+  }
+}
+

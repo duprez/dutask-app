@@ -1,15 +1,15 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title> Nuevo proyecto </ion-title>
+    <ion-title> {{ projectId ? 'Editar' : 'Nuevo' }} proyecto</ion-title>
     <ion-buttons end>
       <button
         type="button"
         ion-button
         clear
         icon-only
+        margin-right
         (click)="onSubmit()"
-        [disabled]="!projectForm || projectForm.invalid"
       >
         <ion-icon name="checkmark-circle-outline"></ion-icon>
       </button>
@@ -19,25 +19,19 @@
 
 <ion-content padding>
   <form (ngSubmit)="onSubmit()" [formGroup]="projectForm">
-    <ion-list>
-      <ion-item color="light">
-        <ion-label floating>ID</ion-label>
-        <ion-input type="text" formControlName="id"></ion-input>
+    <ion-list class="inputs-form">
+      <ion-item>
+        <ion-input type="text" formControlName="id" placeholder="Nombre"></ion-input>
       </ion-item>
-      <ion-item color="light">
-        <ion-label floating>Nombre</ion-label>
-        <ion-input type="text" formControlName="name"></ion-input>
+      <ion-item>
+        <ion-input type="text" formControlName="name" placeholder="Descripción"></ion-input>
       </ion-item>
-      <ion-item color="light" margin-top>
-        <span class="color-text">Color</span>
-        <span
-          [style.background]="arrayColors[selectedColor]"
-          [cpToggle]="true"
-          [cpDialogDisplay]="'inline'"
-          [(colorPicker)]="arrayColors[selectedColor]"
-          (colorPickerChange)="onChangeColor($event)"
-        ></span>
-      </ion-item>
+      <div class="input-with-icon" (click)="prepareColorSheet()">
+        <ion-icon name="square" [style.color]="projectForm?.value.color"></ion-icon>
+        <ion-item>
+          <ion-input type="text" placeholder="Color en hexadecimal: #FFF" formControlName="color"></ion-input>
+        </ion-item>
+      </div>
     </ion-list>
   </form>
 </ion-content>

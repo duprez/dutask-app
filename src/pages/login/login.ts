@@ -1,9 +1,9 @@
-import { AuthProvider } from "./../../providers/auth/auth";
-import { HomePage } from "./../home/home";
-import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { SignupPage } from "../signup/signup";
+import {AuthProvider} from "./../../providers/auth/auth";
+import {HomePage} from "./../home/home";
+import {Component} from "@angular/core";
+import {IonicPage, NavController, NavParams} from "ionic-angular";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {SignupPage} from "../signup/signup";
 
 @IonicPage()
 @Component({
@@ -37,6 +37,7 @@ export class LoginPage {
 
   login() {
     const data = this.loginForm.value;
+    console.log('Entro');
     this.auth.signInWithEmail(data.email, data.password).then(
       () => {
         this.auth.checkUserState().subscribe(user => {
@@ -50,14 +51,34 @@ export class LoginPage {
 
   loginWithGoogle() {
     this.auth.signInWithGoogle().then(
-      () => {
+      res => {
         this.auth.checkUserState().subscribe(user => {
+          console.log('entro aqui 2', user);
           this.auth.saveUserOnLocalStorage(user);
-          this.navCtrl.setRoot(HomePage, { user: user.email });
+          this.navCtrl.setRoot(HomePage, {user: user.email});
         });
+        console.log(res);
       },
       error => console.log(error.message)
     );
+  }
+
+  loginWithGithub() {
+    this.auth.signInWithGithub().then(res => {
+      this.auth.checkUserState().subscribe(user => {
+        this.auth.saveUserOnLocalStorage(user);
+        this.navCtrl.setRoot(HomePage);
+      });
+    }, error => console.log(error.message));
+  }
+
+  loginWithFacebook() {
+    this.auth.signInWithFacebook().then(res => {
+      this.auth.checkUserState().subscribe(user => {
+        this.auth.saveUserOnLocalStorage(user);
+        this.navCtrl.setRoot(HomePage);
+      });
+    }, error => console.log(error.message));
   }
 
   singUp() {

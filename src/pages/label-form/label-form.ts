@@ -1,9 +1,9 @@
-import { Validators } from "@angular/forms";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, ToastController } from "ionic-angular";
-import { TaskProvider } from "../../providers/task/task";
-import { HomePage } from "../home/home";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component} from "@angular/core";
+import {ActionSheetController, IonicPage, NavController, NavParams, ToastController} from "ionic-angular";
+import {TaskProvider} from "../../providers/task/task";
+import {HomePage} from "../home/home";
+import {availablesColors} from '../../shared/colors/availables-colors';
 
 @IonicPage()
 @Component({
@@ -11,51 +11,87 @@ import { HomePage } from "../home/home";
   templateUrl: "label-form.html"
 })
 export class LabelFormPage {
-  labelForm: FormGroup;
 
-  selectedColor: string = 'color1';
-  arrayColors: any = {
-    color1: '#2883e9',
-    color2: '#e920e9',
-    color3: 'rgb(255,245,0)',
-    color4: 'rgb(236,64,64)',
-    color5: 'rgba(45,208,45,1)'
-  };
+  labelId: string;
+  label: Label;
+  labelForm: FormGroup;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private fb: FormBuilder,
     private taskProvider: TaskProvider,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private actionSheetCtrl: ActionSheetController
   ) {
     this.labelForm = this.fb.group({
       id: [null, Validators.required],
       name: [null, Validators.required],
-      color: [
-        this.arrayColors[this.selectedColor],
-        Validators.required
-      ]
+      color: [null, Validators.required]
+    });
+
+    this.labelId = this.navParams.get('id');
+    this.getLabel();
+  }
+
+  getLabel() {
+    this.taskProvider.getLabel(this.labelId).subscribe(label => {
+      this.label = label;
+      if (this.label) {
+        this.labelForm.patchValue(this.label);
+      }
     });
   }
 
-  presentToast(message) {
+  presentToast(message, cssClass?: string) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
-      position: "bottom"
+      position: "bottom",
+      cssClass: cssClass
     });
     toast.present();
   }
 
   onSubmit() {
-    this.taskProvider.addLabel(this.labelForm.value).then(res => {
-      this.presentToast('Etiqueta guardada');
-      this.navCtrl.setRoot(HomePage);
-    });
+    if (this.labelForm.invalid) {
+      this.presentToast('¡Atención! Faltan campos por rellenar', 'alert-toast');
+    } else {
+      if (this.labelId) {
+        this.taskProvider.updateLabel(this.label.key, this.labelForm.value).then(res => {
+          this.presentToast('Etiqueta actualizado', 'success-toast');
+          this.navCtrl.setRoot(HomePage);
+        });
+      } else {
+        console.log('Creando etiqueta');
+        this.taskProvider.addLabel(this.labelForm.value).then(res => {
+          this.presentToast('Etiqueta guardada', 'success-toast');
+          this.navCtrl.setRoot(HomePage);
+        });
+      }
+    }
   }
 
-  onChangeColor(color: string) {
-    this.labelForm.controls.color.setValue(color);
+  prepareColorSheet() {
+    const buttons = [];
+
+    for (let color of availablesColors) {
+      buttons.push({
+        text: color.name,
+        icon: 'square',
+        handler: () => {
+          this.labelForm.controls.color.setValue(color.color);
+          this.labelForm.controls.color.setErrors(null);
+        },
+        cssClass: color.class
+      });
+    }
+
+    const actionSheet = this.actionSheetCtrl.create({
+      title: 'Colores disponibles',
+      cssClass: 'color-options',
+      buttons: buttons
+    });
+    actionSheet.present();
   }
 }

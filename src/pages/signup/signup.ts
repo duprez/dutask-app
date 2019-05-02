@@ -1,11 +1,9 @@
-import { LoginPage } from './../login/login';
-import { Validators } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { AuthProvider } from './../../providers/auth/auth';
-import { FormGroup } from '@angular/forms';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { HomePage } from '../home/home';
+import {LoginPage} from './../login/login';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthProvider} from './../../providers/auth/auth';
+import {Component} from '@angular/core';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {HomePage} from '../home/home';
 
 @IonicPage()
 @Component({
@@ -18,8 +16,9 @@ export class SignupPage {
 	constructor(
     private navCtrl: NavController,
     public navParams: NavParams,
-		private auth: AuthProvider,
-		private fb: FormBuilder
+    private auth: AuthProvider,
+    private fb: FormBuilder,
+    public loadingCtrl: LoadingController
 	) {
 		this.signUpForm = fb.group({
 			email: ['', Validators.compose([Validators.required, Validators.email])],
@@ -27,11 +26,29 @@ export class SignupPage {
 		});
   }
 
+  presentLoadingLogin() {
+    const loader = this.loadingCtrl.create({
+      content: "Registrando acceso...",
+    });
+    loader.present();
+    return loader;
+  }
+
   singUp() {
-	  console.log('Entro a signup');
+    const loader = this.presentLoadingLogin();
     const data = this.signUpForm.value;
     this.auth.createUser(data.email, data.password)
-    .then(res => this.navCtrl.setRoot(HomePage))
+      .then(res => {
+        this.auth.signInWithEmail(data.email, data.password).then(
+          () => {
+            this.auth.checkUserState().subscribe(user => {
+              this.auth.saveUserOnLocalStorage(user);
+              loader.dismiss();
+              this.navCtrl.setRoot(HomePage, {user: user.email});
+            });
+          }
+        );
+      })
     .catch(err => console.log(err));
   }
 

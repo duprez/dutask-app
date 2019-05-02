@@ -1,9 +1,9 @@
-import { TaskPage } from "./../task/task";
-import { TaskProvider } from "./../../providers/task/task";
-import { TaskFormPage } from "./../task-form/task-form";
-import { Component, OnInit } from "@angular/core";
-import { NavController, ModalController, ToastController, NavParams, LoadingController } from "ionic-angular";
-import { CalendarModal, CalendarModalOptions, DayConfig, CalendarResult } from "ion2-calendar";
+import {TaskPage} from "./../task/task";
+import {TaskProvider} from "./../../providers/task/task";
+import {TaskFormPage} from "./../task-form/task-form";
+import {Component, OnInit} from "@angular/core";
+import {LoadingController, ModalController, NavController, NavParams, ToastController} from "ionic-angular";
+import {CalendarModal, CalendarModalOptions, CalendarResult} from "ion2-calendar";
 import * as moment from 'moment';
 
 @Component({
@@ -30,6 +30,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.taskProvider.getUser();
     this.getTasks(this.navParams.get('filter'));
     this.getLabels();
     this.getProjects();
@@ -57,6 +58,7 @@ export class HomePage implements OnInit {
   }
 
   getTasks(filter?: any) {
+    console.log('Filtro', filter);
     const loading = this.presentLoading('Cargando sus tareas');
     this.taskProvider.getTasks(filter).subscribe(res => {
       this.taskList = res;

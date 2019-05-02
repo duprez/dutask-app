@@ -1,10 +1,11 @@
-import { Inject } from "@angular/core";
-import { Injectable } from "@angular/core";
-import { SESSION_STORAGE, StorageService } from "ngx-webstorage-service";
-import { AngularFireAuth } from "angularfire2/auth";
+import {Inject, Injectable} from "@angular/core";
+import {SESSION_STORAGE, StorageService} from "ngx-webstorage-service";
+import {AngularFireAuth} from "angularfire2/auth";
 import * as firebase from "firebase/app";
+import {auth} from "firebase/app";
 // import AuthProvider = firebase.auth.AuthProvider;
-import { Observable } from "rxjs";
+import {Observable} from "rxjs";
+
 
 @Injectable()
 export class AuthProvider {
@@ -33,6 +34,7 @@ export class AuthProvider {
   }
 
   saveUserOnLocalStorage(user) {
+    console.log(user);
     this.storage.set("email", user.email);
     this.storage.set("fullName", user.displayName);
     this.storage.set("photo", user.photoURL);
@@ -64,31 +66,41 @@ export class AuthProvider {
   }
 
   signInWithGoogle() {
-    return this.oauthSignIn(new firebase.auth.GoogleAuthProvider());
+    return this.oauthSignIn(new auth.GoogleAuthProvider());
+  }
+
+  signInWithGithub() {
+    return this.oauthSignIn(new auth.GithubAuthProvider());
+  }
+
+  signInWithFacebook() {
+    return this.oauthSignIn(new auth.FacebookAuthProvider());
   }
 
   private oauthSignIn(provider) {
-    if ((<any>window).cordova) {
-      console.log('1');
+    return this.fireAuth.auth.signInWithPopup(provider);
+    /*if ((<any>window).cordova) {
       return this.fireAuth.auth.signInWithPopup(provider);
     } else {
-      console.log('2');
-      return this.fireAuth.auth.signInWithRedirect(provider).then(() => {
-        return this.fireAuth.auth
-          .getRedirectResult()
-          .then(result => {
-            // This gives you a Google Access Token.
-            // You can use it to access the Google API.
-            let token = result.credential.providerId;
-            // The signed-in user info.
-            let user = result.user;
-            console.log(token, user);
-          })
-          .catch(function(error) {
-            return error;
-          });
+      return new Promise((resolve, reject) => {
+        this.fireAuth.auth.signInWithRedirect(provider).then(() => {
+          return this.fireAuth.auth
+            .getRedirectResult()
+            .then(result => {
+              // This gives you a Google Access Token.
+              // You can use it to access the Google API.
+              const token = result.credential.providerId;
+              // The signed-in user info.
+              const user = result.user;
+              console.log('Token', token, user);
+              resolve(user);
+            })
+            .catch(function(error) {
+              return error;
+            });
+        });
       });
-    }
+    }*/
   }
 
   logout(): Observable<any> {
